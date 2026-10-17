@@ -1,0 +1,44 @@
+RidePulse — Info.plist keys to add in Xcode
+============================================
+
+iOS target ("RidePulse")
+------------------------
+Add these keys to the iOS target's Info.plist (Xcode: select target >
+Info tab > add rows):
+
+1. NSBluetoothAlwaysUsageDescription (Privacy - Bluetooth Always Usage Description)
+   Value: "RidePulse connects to your 4iiii power meter over Bluetooth to show live power and cadence."
+
+2. NSLocationWhenInUseUsageDescription (Privacy - Location When In Use Usage Description)
+   Value: "RidePulse uses GPS to measure your speed, distance and ride route while you ride."
+
+3. NSLocationAlwaysAndWhenInUseUsageDescription (Privacy - Location Always and When In Use Usage Description)
+   Value: "RidePulse keeps recording GPS in the background so your ride isn't interrupted when the screen locks."
+
+4. UIBackgroundModes (Required background modes) — Array:
+     Item 0: bluetooth-central   (stay connected to the power meter in background)
+     Item 1: location            (keep GPS tracking while riding in background)
+
+   In the Xcode UI this is easier: select the iOS target > Signing & Capabilities
+   > + Capability > Background Modes, then check:
+       [x] Bluetooth LE accessories  (adds bluetooth-central)
+       [x] Location updates          (adds location)
+
+watchOS target ("RidePulse Watch App")
+--------------------------------------
+1. NSHealthShareUsageDescription (Privacy - Health Share Usage Description)
+   Value: "RidePulse reads your heart rate during cycling workouts to stream it to your iPhone."
+
+2. NSHealthUpdateUsageDescription (Privacy - Health Update Usage Description)
+   Value: "RidePulse saves your cycling workouts to Health."
+
+3. WKBackgroundModes (WatchKit Background Modes) — Array:
+     Item 0: workout-processing
+
+   In Xcode: select the Watch App target > Signing & Capabilities
+   > + Capability > HealthKit, and enable the Workout Processing
+   background mode for the WatchKit Extension target if prompted.
+
+Note: HealthKit capability must also be enabled under Signing & Capabilities
+for the watchOS target (HealthKit checkbox). The iOS target does NOT need
+HealthKit — only the watch app uses it.

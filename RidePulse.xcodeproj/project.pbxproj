@@ -1,0 +1,687 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0AC4CF493EB59C37A49C00B2 /* SavedRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5A47F5040240E22D4D25D3 /* SavedRoute.swift */; };
+		0B9C28245771D85FBC0F7CEF /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8608AD75DCB3D12A7A3336 /* WatchContentView.swift */; };
+		1060D8C599E6E1133CAFC83D /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21016E53DCAA1DC460C75BBC /* WatchConnectivityManager.swift */; };
+		1FE07FEB36A3134E13301535 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0BFDD32F3CB48488EE5C4E /* HistoryView.swift */; };
+		25735E9D533B61E3A08CE839 /* RidePulseWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 83A3C934F7065A494A838B0C /* RidePulseWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		321DEEB7A9A081614D2E7B1C /* RidePulseWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 34D1E75504BFA339578F729E /* RidePulseWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		38E888A87A8E05FB441F482F /* PresetRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58136F38A13A42CF58EEB0FF /* PresetRoutes.swift */; };
+		40CC254FB93F736835923F05 /* GPXImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062197B52EE6E460E34D660A /* GPXImporter.swift */; };
+		41CA1B27F4280CE23ED9BB8B /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1BEA692558051925F5C48 /* DevicesView.swift */; };
+		4D02FEDBEB933C65722A2DCC /* RideRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32306EE2BFA5B16945E4A85 /* RideRecorder.swift */; };
+		4E64BA9FD43305C7C3F2FAD1 /* RoutePlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8866759759E2A4F13F87F3 /* RoutePlanner.swift */; };
+		56D80F063D0CCA5E37DB2621 /* BLEPowerMeterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF679BD7C39E7640A93A6FA8 /* BLEPowerMeterManager.swift */; };
+		573336E655C202CD4926F442 /* RidePulseWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553EB7A4C6B8848EC13FC77C /* RidePulseWidgetsBundle.swift */; };
+		589E0ED970389F59CC97EFC8 /* LiveActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EF9053F4A72F2021C2914 /* LiveActivityController.swift */; };
+		5D323FCF74D7B9491B3D5E60 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB60D64AAE0A1CE564311C /* Models.swift */; };
+		70F0190B667A7BFC6AD25924 /* RidePulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC3637BDFEA97040452B92D /* RidePulseApp.swift */; };
+		758D42152EFD944FCA551135 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F6A02B6DA77F046E3A67D7 /* RideDetailView.swift */; };
+		7E495FF0C0094A812963179E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A1C8DE72DD49FA469ABC4A /* Assets.xcassets */; };
+		809308D9876934949659E7D5 /* RideActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F87E52AB9FFECBBC010BE4 /* RideActivityAttributes.swift */; };
+		838400D6905825D6AC3CF94C /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CD26CB18EAF0BFD63B7ED7 /* DashboardView.swift */; };
+		8A083A119488C8443196CEB5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770295222C983DF17D69531E /* SettingsView.swift */; };
+		91A340E3615516353FF146D0 /* WatchWorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CB5AECD18B6195C983D857 /* WatchWorkoutManager.swift */; };
+		920137C1CE7175A0AFCB3890 /* ElevationProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64641A825C15BBDAB6F0175C /* ElevationProfileView.swift */; };
+		AAADBFF2ADF983814208A0F0 /* ElevationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C2177B1EE98B25732333D /* ElevationService.swift */; };
+		AAB89BABE677BED6688E684B /* RoutesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C152871E8107E3F0BA609A5A /* RoutesView.swift */; };
+		AB4B17D6800386FF8658E88E /* HealthExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B02A7C0D974243C2BE0ED58 /* HealthExporter.swift */; };
+		AC8D50A0E6DD8357B1F8590E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC34DA891E56F7410E0EE25 /* Assets.xcassets */; };
+		BF355AAE48105A7C9BF6A083 /* RideActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F87E52AB9FFECBBC010BE4 /* RideActivityAttributes.swift */; };
+		C9EF99003DE2F96E18EF6BBF /* StravaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6455DDB377D0F281CC2DCAE /* StravaService.swift */; };
+		D5F9364B981F672C0F8314FD /* VoiceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91963B6C92262B7029E88DD /* VoiceSettings.swift */; };
+		D889E2C7F80C8C064DB3F7B5 /* RidePulseWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFFCD5C5A1AFF92B3F8C997 /* RidePulseWatchApp.swift */; };
+		D9290FD369FD430BD8D03313 /* RideExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC6886EC0903EB4F28599E9 /* RideExport.swift */; };
+		DF19C827CAB634C8904F6C69 /* RideLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95F234C97AB731E56C5703 /* RideLiveActivity.swift */; };
+		EC2344BB3F509AADEF3F3CA2 /* VoiceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8929C134D08546CD645CD2A /* VoiceEngine.swift */; };
+		ECE284D57D52C5DB1C6F0E84 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9685B8CF5A5C1ED08FC178 /* ContentView.swift */; };
+		ED4AC59869C41DC08566DB18 /* RideStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5EA8E91C8A3479D53D7C1 /* RideStats.swift */; };
+		F41B9BF75C417450EA3A2E0F /* NavigationMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90782DDBE7250F20D638D18 /* NavigationMapView.swift */; };
+		F860C269B84116B77958895A /* RideStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCFC9485A660B05605889C /* RideStore.swift */; };
+		FDD625618FC417A9E15A07C7 /* LocationSpeedManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58ADB1AA62B8028808EAEF26 /* LocationSpeedManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7DFB4CB1C357395F49B933A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 994DA3C50ACAAF82BADC15CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C67A40AF5B8A0C8BF477D8F;
+			remoteInfo = RidePulseWatch;
+		};
+		BB6773D56F28B0BDEC40E325 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 994DA3C50ACAAF82BADC15CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FC5B9B9E0C57ACA49D637E1;
+			remoteInfo = RidePulseWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		15304385127D7EA9D35D6577 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				321DEEB7A9A081614D2E7B1C /* RidePulseWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B6B789662BDC78E82362D3C /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				25735E9D533B61E3A08CE839 /* RidePulseWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		062197B52EE6E460E34D660A /* GPXImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXImporter.swift; sourceTree = "<group>"; };
+		0B02A7C0D974243C2BE0ED58 /* HealthExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthExporter.swift; sourceTree = "<group>"; };
+		12CB5AECD18B6195C983D857 /* WatchWorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchWorkoutManager.swift; sourceTree = "<group>"; };
+		1DC3637BDFEA97040452B92D /* RidePulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePulseApp.swift; sourceTree = "<group>"; };
+		1EC6886EC0903EB4F28599E9 /* RideExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideExport.swift; sourceTree = "<group>"; };
+		201CA491B69A7C804A212629 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		21016E53DCAA1DC460C75BBC /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
+		26EAF0065BC8C7FD9F46172F /* RidePulse.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = RidePulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C8866759759E2A4F13F87F3 /* RoutePlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePlanner.swift; sourceTree = "<group>"; };
+		2F0BFDD32F3CB48488EE5C4E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		34D1E75504BFA339578F729E /* RidePulseWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = RidePulseWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8608AD75DCB3D12A7A3336 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
+		466EF9053F4A72F2021C2914 /* LiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityController.swift; sourceTree = "<group>"; };
+		4AB5EA8E91C8A3479D53D7C1 /* RideStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideStats.swift; sourceTree = "<group>"; };
+		4D95F234C97AB731E56C5703 /* RideLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideLiveActivity.swift; sourceTree = "<group>"; };
+		553EB7A4C6B8848EC13FC77C /* RidePulseWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePulseWidgetsBundle.swift; sourceTree = "<group>"; };
+		58136F38A13A42CF58EEB0FF /* PresetRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetRoutes.swift; sourceTree = "<group>"; };
+		58ADB1AA62B8028808EAEF26 /* LocationSpeedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSpeedManager.swift; sourceTree = "<group>"; };
+		63E1BEA692558051925F5C48 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
+		64641A825C15BBDAB6F0175C /* ElevationProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationProfileView.swift; sourceTree = "<group>"; };
+		69CCFC9485A660B05605889C /* RideStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideStore.swift; sourceTree = "<group>"; };
+		770295222C983DF17D69531E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		83A3C934F7065A494A838B0C /* RidePulseWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RidePulseWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		91F6A02B6DA77F046E3A67D7 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
+		96CD26CB18EAF0BFD63B7ED7 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		9C5C2177B1EE98B25732333D /* ElevationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationService.swift; sourceTree = "<group>"; };
+		9FC34DA891E56F7410E0EE25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A32306EE2BFA5B16945E4A85 /* RideRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRecorder.swift; sourceTree = "<group>"; };
+		B5DB60D64AAE0A1CE564311C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B6455DDB377D0F281CC2DCAE /* StravaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaService.swift; sourceTree = "<group>"; };
+		B8929C134D08546CD645CD2A /* VoiceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEngine.swift; sourceTree = "<group>"; };
+		BF7E946805CF759007CBBE0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C152871E8107E3F0BA609A5A /* RoutesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesView.swift; sourceTree = "<group>"; };
+		CD9685B8CF5A5C1ED08FC178 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D1D2451E572B5E443F3EF53B /* RidePulseWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RidePulseWatch.entitlements; sourceTree = "<group>"; };
+		D9A1C8DE72DD49FA469ABC4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD5A47F5040240E22D4D25D3 /* SavedRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRoute.swift; sourceTree = "<group>"; };
+		DFFFCD5C5A1AFF92B3F8C997 /* RidePulseWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePulseWatchApp.swift; sourceTree = "<group>"; };
+		E4F87E52AB9FFECBBC010BE4 /* RideActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideActivityAttributes.swift; sourceTree = "<group>"; };
+		E90782DDBE7250F20D638D18 /* NavigationMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationMapView.swift; sourceTree = "<group>"; };
+		EF679BD7C39E7640A93A6FA8 /* BLEPowerMeterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEPowerMeterManager.swift; sourceTree = "<group>"; };
+		F3DFDF5DE6579F6C75ED0C99 /* RidePulse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RidePulse.entitlements; sourceTree = "<group>"; };
+		F91963B6C92262B7029E88DD /* VoiceSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSettings.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		3EB7AEB008FE0461656141B0 /* widgets */ = {
+			isa = PBXGroup;
+			children = (
+				BF7E946805CF759007CBBE0B /* Info.plist */,
+				4D95F234C97AB731E56C5703 /* RideLiveActivity.swift */,
+				553EB7A4C6B8848EC13FC77C /* RidePulseWidgetsBundle.swift */,
+			);
+			path = widgets;
+			sourceTree = "<group>";
+		};
+		89593B2B3C5C72FAA3BDDBF2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				26EAF0065BC8C7FD9F46172F /* RidePulse.app */,
+				83A3C934F7065A494A838B0C /* RidePulseWatch.app */,
+				34D1E75504BFA339578F729E /* RidePulseWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9367BBE817CDFEA14B683943 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				9FC34DA891E56F7410E0EE25 /* Assets.xcassets */,
+				EF679BD7C39E7640A93A6FA8 /* BLEPowerMeterManager.swift */,
+				CD9685B8CF5A5C1ED08FC178 /* ContentView.swift */,
+				96CD26CB18EAF0BFD63B7ED7 /* DashboardView.swift */,
+				63E1BEA692558051925F5C48 /* DevicesView.swift */,
+				64641A825C15BBDAB6F0175C /* ElevationProfileView.swift */,
+				9C5C2177B1EE98B25732333D /* ElevationService.swift */,
+				062197B52EE6E460E34D660A /* GPXImporter.swift */,
+				0B02A7C0D974243C2BE0ED58 /* HealthExporter.swift */,
+				2F0BFDD32F3CB48488EE5C4E /* HistoryView.swift */,
+				201CA491B69A7C804A212629 /* Info.plist */,
+				466EF9053F4A72F2021C2914 /* LiveActivityController.swift */,
+				58ADB1AA62B8028808EAEF26 /* LocationSpeedManager.swift */,
+				B5DB60D64AAE0A1CE564311C /* Models.swift */,
+				E90782DDBE7250F20D638D18 /* NavigationMapView.swift */,
+				58136F38A13A42CF58EEB0FF /* PresetRoutes.swift */,
+				91F6A02B6DA77F046E3A67D7 /* RideDetailView.swift */,
+				1EC6886EC0903EB4F28599E9 /* RideExport.swift */,
+				F3DFDF5DE6579F6C75ED0C99 /* RidePulse.entitlements */,
+				1DC3637BDFEA97040452B92D /* RidePulseApp.swift */,
+				A32306EE2BFA5B16945E4A85 /* RideRecorder.swift */,
+				4AB5EA8E91C8A3479D53D7C1 /* RideStats.swift */,
+				69CCFC9485A660B05605889C /* RideStore.swift */,
+				2C8866759759E2A4F13F87F3 /* RoutePlanner.swift */,
+				C152871E8107E3F0BA609A5A /* RoutesView.swift */,
+				DD5A47F5040240E22D4D25D3 /* SavedRoute.swift */,
+				770295222C983DF17D69531E /* SettingsView.swift */,
+				B6455DDB377D0F281CC2DCAE /* StravaService.swift */,
+				B8929C134D08546CD645CD2A /* VoiceEngine.swift */,
+				F91963B6C92262B7029E88DD /* VoiceSettings.swift */,
+				21016E53DCAA1DC460C75BBC /* WatchConnectivityManager.swift */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		B3C7291FA83E3B14EF2F02D2 /* watchos */ = {
+			isa = PBXGroup;
+			children = (
+				D9A1C8DE72DD49FA469ABC4A /* Assets.xcassets */,
+				D1D2451E572B5E443F3EF53B /* RidePulseWatch.entitlements */,
+				DFFFCD5C5A1AFF92B3F8C997 /* RidePulseWatchApp.swift */,
+				3D8608AD75DCB3D12A7A3336 /* WatchContentView.swift */,
+				12CB5AECD18B6195C983D857 /* WatchWorkoutManager.swift */,
+			);
+			path = watchos;
+			sourceTree = "<group>";
+		};
+		BA6E8FC7973DCCF0E047E061 = {
+			isa = PBXGroup;
+			children = (
+				9367BBE817CDFEA14B683943 /* ios */,
+				BB82CD5E92AD74583925FB58 /* shared */,
+				B3C7291FA83E3B14EF2F02D2 /* watchos */,
+				3EB7AEB008FE0461656141B0 /* widgets */,
+				89593B2B3C5C72FAA3BDDBF2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BB82CD5E92AD74583925FB58 /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				E4F87E52AB9FFECBBC010BE4 /* RideActivityAttributes.swift */,
+			);
+			path = shared;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1FC5B9B9E0C57ACA49D637E1 /* RidePulseWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC954074AA1E8215CB7BC63B /* Build configuration list for PBXNativeTarget "RidePulseWidgets" */;
+			buildPhases = (
+				A20D7125EB2CDA4392697F5C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RidePulseWidgets;
+			packageProductDependencies = (
+			);
+			productName = RidePulseWidgets;
+			productReference = 34D1E75504BFA339578F729E /* RidePulseWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7C67A40AF5B8A0C8BF477D8F /* RidePulseWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70A7170E5B1076134E917EA3 /* Build configuration list for PBXNativeTarget "RidePulseWatch" */;
+			buildPhases = (
+				592BDB26DD32386805D43D61 /* Sources */,
+				1D4211581679995FD7EAD306 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RidePulseWatch;
+			packageProductDependencies = (
+			);
+			productName = RidePulseWatch;
+			productReference = 83A3C934F7065A494A838B0C /* RidePulseWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D5D89C8C88B34B1DA9536AA9 /* RidePulse */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2075F1E6829C79AEDCC46F4 /* Build configuration list for PBXNativeTarget "RidePulse" */;
+			buildPhases = (
+				9F29D77F30846B00F3ABF2AB /* Sources */,
+				17A85D5013569B129B732E5B /* Resources */,
+				15304385127D7EA9D35D6577 /* Embed Foundation Extensions */,
+				3B6B789662BDC78E82362D3C /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				611CE7CE3C0EA7859BC1AF21 /* PBXTargetDependency */,
+				07164FA59D397620CC9E3758 /* PBXTargetDependency */,
+			);
+			name = RidePulse;
+			packageProductDependencies = (
+			);
+			productName = RidePulse;
+			productReference = 26EAF0065BC8C7FD9F46172F /* RidePulse.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		994DA3C50ACAAF82BADC15CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					1FC5B9B9E0C57ACA49D637E1 = {
+						ProvisioningStyle = Automatic;
+					};
+					7C67A40AF5B8A0C8BF477D8F = {
+						ProvisioningStyle = Automatic;
+					};
+					D5D89C8C88B34B1DA9536AA9 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 965F38694497D53410E9640D /* Build configuration list for PBXProject "RidePulse" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BA6E8FC7973DCCF0E047E061;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 89593B2B3C5C72FAA3BDDBF2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D5D89C8C88B34B1DA9536AA9 /* RidePulse */,
+				1FC5B9B9E0C57ACA49D637E1 /* RidePulseWidgets */,
+				7C67A40AF5B8A0C8BF477D8F /* RidePulseWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		17A85D5013569B129B732E5B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC8D50A0E6DD8357B1F8590E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D4211581679995FD7EAD306 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E495FF0C0094A812963179E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		592BDB26DD32386805D43D61 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D889E2C7F80C8C064DB3F7B5 /* RidePulseWatchApp.swift in Sources */,
+				0B9C28245771D85FBC0F7CEF /* WatchContentView.swift in Sources */,
+				91A340E3615516353FF146D0 /* WatchWorkoutManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F29D77F30846B00F3ABF2AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56D80F063D0CCA5E37DB2621 /* BLEPowerMeterManager.swift in Sources */,
+				ECE284D57D52C5DB1C6F0E84 /* ContentView.swift in Sources */,
+				838400D6905825D6AC3CF94C /* DashboardView.swift in Sources */,
+				41CA1B27F4280CE23ED9BB8B /* DevicesView.swift in Sources */,
+				920137C1CE7175A0AFCB3890 /* ElevationProfileView.swift in Sources */,
+				AAADBFF2ADF983814208A0F0 /* ElevationService.swift in Sources */,
+				40CC254FB93F736835923F05 /* GPXImporter.swift in Sources */,
+				AB4B17D6800386FF8658E88E /* HealthExporter.swift in Sources */,
+				1FE07FEB36A3134E13301535 /* HistoryView.swift in Sources */,
+				589E0ED970389F59CC97EFC8 /* LiveActivityController.swift in Sources */,
+				FDD625618FC417A9E15A07C7 /* LocationSpeedManager.swift in Sources */,
+				5D323FCF74D7B9491B3D5E60 /* Models.swift in Sources */,
+				F41B9BF75C417450EA3A2E0F /* NavigationMapView.swift in Sources */,
+				38E888A87A8E05FB441F482F /* PresetRoutes.swift in Sources */,
+				809308D9876934949659E7D5 /* RideActivityAttributes.swift in Sources */,
+				758D42152EFD944FCA551135 /* RideDetailView.swift in Sources */,
+				D9290FD369FD430BD8D03313 /* RideExport.swift in Sources */,
+				70F0190B667A7BFC6AD25924 /* RidePulseApp.swift in Sources */,
+				4D02FEDBEB933C65722A2DCC /* RideRecorder.swift in Sources */,
+				ED4AC59869C41DC08566DB18 /* RideStats.swift in Sources */,
+				F860C269B84116B77958895A /* RideStore.swift in Sources */,
+				4E64BA9FD43305C7C3F2FAD1 /* RoutePlanner.swift in Sources */,
+				AAB89BABE677BED6688E684B /* RoutesView.swift in Sources */,
+				0AC4CF493EB59C37A49C00B2 /* SavedRoute.swift in Sources */,
+				8A083A119488C8443196CEB5 /* SettingsView.swift in Sources */,
+				C9EF99003DE2F96E18EF6BBF /* StravaService.swift in Sources */,
+				EC2344BB3F509AADEF3F3CA2 /* VoiceEngine.swift in Sources */,
+				D5F9364B981F672C0F8314FD /* VoiceSettings.swift in Sources */,
+				1060D8C599E6E1133CAFC83D /* WatchConnectivityManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A20D7125EB2CDA4392697F5C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF355AAE48105A7C9BF6A083 /* RideActivityAttributes.swift in Sources */,
+				DF19C827CAB634C8904F6C69 /* RideLiveActivity.swift in Sources */,
+				573336E655C202CD4926F442 /* RidePulseWidgetsBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		07164FA59D397620CC9E3758 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FC5B9B9E0C57ACA49D637E1 /* RidePulseWidgets */;
+			targetProxy = BB6773D56F28B0BDEC40E325 /* PBXContainerItemProxy */;
+		};
+		611CE7CE3C0EA7859BC1AF21 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C67A40AF5B8A0C8BF477D8F /* RidePulseWatch */;
+			targetProxy = 7DFB4CB1C357395F49B933A6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1027E333D62B2B42FFCA16DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = widgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaoyi.ridepulse.app.widgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4218FC7C49B666B1F3804D8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = widgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaoyi.ridepulse.app.widgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		47566B4ED9BE688C63A20466 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		BF18768D5672E09E7A008764 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ios/RidePulse.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaoyi.ridepulse.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		DFCA37A21E9AAD2B4105CD4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ios/RidePulse.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaoyi.ridepulse.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		E428348716024247B09F7DE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		EDD13883AB0BD644280BB105 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = watchos/RidePulseWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = watchos/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaoyi.ridepulse.app.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		FA9DA5506AA78F17CAA22B49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = watchos/RidePulseWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = watchos/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaoyi.ridepulse.app.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		70A7170E5B1076134E917EA3 /* Build configuration list for PBXNativeTarget "RidePulseWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDD13883AB0BD644280BB105 /* Debug */,
+				FA9DA5506AA78F17CAA22B49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		965F38694497D53410E9640D /* Build configuration list for PBXProject "RidePulse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47566B4ED9BE688C63A20466 /* Debug */,
+				E428348716024247B09F7DE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E2075F1E6829C79AEDCC46F4 /* Build configuration list for PBXNativeTarget "RidePulse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF18768D5672E09E7A008764 /* Debug */,
+				DFCA37A21E9AAD2B4105CD4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EC954074AA1E8215CB7BC63B /* Build configuration list for PBXNativeTarget "RidePulseWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4218FC7C49B666B1F3804D8D /* Debug */,
+				1027E333D62B2B42FFCA16DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 994DA3C50ACAAF82BADC15CD /* Project object */;
+}
