@@ -13,50 +13,22 @@ SwiftUI + CoreBluetooth + CoreLocation + WatchConnectivity + HealthKit + SwiftDa
 | iPhone app | BLE power meter connection, GPS speed/distance, receives HR from watch, ride recording, SwiftData history, maps, charts, GPX export |
 | Watch app | HealthKit cycling workout, streams live HR to iPhone via WatchConnectivity |
 
-## Project setup in Xcode
+## Getting started
 
-These are source files, not an `.xcodeproj` (Xcode projects can't be authored reliably by hand).
-Create the project like this:
+The Xcode project is **generated** from `project.yml` with [XcodeGen](https://github.com/yonaskolb/XcodeGen):
 
-1. **Xcode > File > New > Project… > iOS > App**
-   - Product Name: `RidePulse`
-   - Interface: **SwiftUI**, Language: **Swift**, Storage: **SwiftData**
-   - This creates the iOS target.
-2. **File > New > Target… > watchOS > Watch App**
-   - Product Name: `RidePulse Watch App`
-   - Language: Swift. (Xcode scaffolds a Watch App + WatchKit Extension; keep both.)
-3. **Delete the template-generated source files** Xcode created for both targets
-   (the default `ContentView.swift`, `RidePulseApp.swift`, etc.), then drag in
-   this folder's files per the table below. When adding, check **only** the
-   matching target's membership box.
+```
+brew install xcodegen     # or download a release binary
+xcodegen generate         # creates RidePulse.xcodeproj
+open RidePulse.xcodeproj
+```
 
-### File → target mapping
-
-| File | iOS target | watchOS target |
-|---|---|---|
-| `ios/RidePulseApp.swift` | ✅ | |
-| `ios/Models.swift` | ✅ | |
-| `ios/BLEPowerMeterManager.swift` | ✅ | |
-| `ios/LocationSpeedManager.swift` | ✅ | |
-| `ios/WatchConnectivityManager.swift` | ✅ | |
-| `ios/RideRecorder.swift` | ✅ | |
-| `ios/RideStore.swift` | ✅ | |
-| `ios/ContentView.swift` | ✅ | |
-| `ios/DashboardView.swift` | ✅ | |
-| `ios/DevicesView.swift` | ✅ | |
-| `ios/HistoryView.swift` | ✅ | |
-| `ios/RideDetailView.swift` | ✅ | |
-| `ios/SettingsView.swift` | ✅ | |
-| `ios/PresetRoutes.swift` | ✅ | |
-| `ios/RoutePlanner.swift` | ✅ | |
-| `ios/RoutesView.swift` | ✅ | |
-| `ios/RideStats.swift` | ✅ | |
-| `watchos/RidePulseWatchApp.swift` | | ✅ |
-| `watchos/WatchWorkoutManager.swift` | | ✅ |
-| `watchos/WatchContentView.swift` | | ✅ |
-
-`ios/Info-plist-keys.txt` is documentation, not a build file — add those keys
-manually in each target's Info tab (details inside the file).
+Then pick your **Team** for all three targets (`RidePulse`, `RidePulseWidgets`,
+`RidePulseWatch`) under *Signing & Capabilities* and press ⌘R. Capabilities, plist keys
+(Bluetooth, Location, Health, Live Activities, background modes) and entitlements are all
+declared in `project.yml`, so nothing needs to be added by hand. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for device setup (including the Apple Watch) and
+project layout.
 
 ## Capabilities & signing
 
@@ -64,13 +36,9 @@ manually in each target's Info tab (details inside the file).
    - Free Apple ID: apps install on your own devices but the provisioning
      certificate expires every **7 days** — re-run from Xcode to re-sign.
    - Apple Developer Program ($99/yr): no re-signing hassle, TestFlight, App Store.
-2. **iOS target > Signing & Capabilities > + Capability:**
-   - **Background Modes** → check **Bluetooth LE accessories** and **Location updates**.
-3. **Watch target > Signing & Capabilities > + Capability:**
-   - **HealthKit**.
-   - **Background Modes** (WatchKit Extension) → check **Workout Processing**.
-4. Add the **Info.plist keys** from `ios/Info-plist-keys.txt`
-   (Bluetooth + Location usage strings on iOS; Health usage strings on watchOS).
+2. Capabilities (Bluetooth LE and Location background modes, HealthKit, Workout
+   Processing) and the usage-description strings are already declared in `project.yml`
+   — see `ios/Info-plist-keys.txt` for what each key is for.
 
 ## Install & test
 
