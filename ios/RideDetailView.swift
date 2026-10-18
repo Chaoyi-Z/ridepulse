@@ -308,12 +308,18 @@ struct RideDetailView: View {
                     statRow("Work", "\(Int(kj.rounded())) kJ")
                 }
                 if let kcal = s.estimatedCalories {
-                    statRow("Calories (est.)", "\(Int(kcal.rounded())) kcal")
+                    statRow("Calories (est.)",
+                            "\(Int(kcal.rounded())) kcal · from \(s.calorieSource?.rawValue ?? "estimate")")
                 }
                 statRow("Samples", "\(ride.samples.count)", last: true)
             }
             .background(Color(.secondarySystemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 14))
+
+            if s.calorieUsedDefaults {
+                Text("Calories use an assumed weight/age. Set yours in Settings › Rider Profile (or import from Health) for a better estimate.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
 
             if !s.peakPower.isEmpty {
                 Text("Peak Power")

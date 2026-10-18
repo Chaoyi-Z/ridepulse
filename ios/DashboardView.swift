@@ -233,9 +233,32 @@ struct DashboardView: View {
                             ok: bleManager.connectionState == .connected
                         )
                         StatusDot(label: "Watch", ok: watchManager.isReachable)
+                        TimelineView(.periodic(from: .now, by: 1)) { _ in
+                            let live = watchManager.lastHeartRateDate
+                                .map { Date().timeIntervalSince($0) < 15 } ?? false
+                            Button {
+                                if live { watchManager.stopWatchWorkout() } else { watchManager.launchWatchWorkout() }
+                            } label: {
+                                Label(live ? "Stop HR" : "Start HR", systemImage: live ? "heart.slash" : "heart.fill")
+                                    .font(.caption.weight(.semibold))
+                                    .padding(.horizontal, 10).padding(.vertical, 5)
+                                    .background(live ? Color.gray.opacity(0.2) : Color.pink)
+                                    .foregroundStyle(live ? Color.primary : Color.white)
+                                    .clipShape(Capsule())
+                            }
+                            .buttonStyle(.plain)
+                        }
                         Spacer()
                     }
                     .padding(.horizontal, 4)
+
+                    if let status = watchManager.watchLaunchStatus, watchManager.heartRateBpm == nil {
+                        Text(status)
+                            .font(.caption2)
+                            .foregroundStyle(status.contains("OFF") || status.contains("failed") ? .orange : .secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 4)
+                    }
 
                     if locationManager.authorizationStatus == .denied
                         || locationManager.authorizationStatus == .restricted {

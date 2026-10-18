@@ -5,6 +5,8 @@ struct SettingsView: View {
     @AppStorage("speedUnit") private var speedUnitRaw: String = SpeedUnit.mph.rawValue
     @AppStorage("voiceGuidance") private var voiceGuidance: Bool = true
     @AppStorage(RideRecorder.autoPauseKey) private var autoPause: Bool = true
+    @AppStorage("keepAwakeRide") private var keepAwakeRide: Bool = true
+    @AppStorage("keepAwakeAlways") private var keepAwakeAlways: Bool = false
     @AppStorage(VoiceSettings.identifierKey) private var voiceIdentifier: String = ""
     @AppStorage(VoiceSettings.rateKey) private var voiceRate: Double = VoiceSettings.defaultRate
     @EnvironmentObject private var planner: RoutePlanner
@@ -22,6 +24,10 @@ struct SettingsView: View {
     @State private var testingAzure = false
     @AppStorage(RiderProfile.ftpKey) private var ftpWatts: Int = 0
     @AppStorage(RiderProfile.maxHRKey) private var maxHRBpm: Int = 0
+    @AppStorage(RiderProfile.weightKey) private var weightKg: Double = 0
+    @AppStorage(RiderProfile.ageKey) private var ageYears: Int = 0
+    @AppStorage(RiderProfile.sexKey) private var sexRaw: String = ""
+    @State private var healthImportMessage: String?
 
     var body: some View {
         NavigationStack {
@@ -53,10 +59,49 @@ struct SettingsView: View {
                             .frame(width: 90)
                         Text("bpm").foregroundStyle(.secondary)
                     }
+                    HStack {
+                        Text("Weight")
+                        Spacer()
+                        TextField(speedUnitRaw == SpeedUnit.mph.rawValue ? "e.g. 165" : "e.g. 75",
+                                  value: weightDisplay, format: .number.precision(.fractionLength(0...1)))
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                            .frame(width: 90)
+                        Text(speedUnitRaw == SpeedUnit.mph.rawValue ? "lb" : "kg").foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("Age")
+                        Spacer()
+                        TextField("e.g. 35", value: optionalInt($ageYears), format: .number)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .frame(width: 90)
+                        Text("yrs").foregroundStyle(.secondary)
+                    }
+                    Picker("Sex", selection: $sexRaw) {
+                        Text("Not set").tag("")
+                        Text("Male").tag("male")
+                        Text("Female").tag("female")
+                    }
+                    Button {
+                        Task {
+                            let ok = await RiderProfile.importFromHealth()
+                            // @AppStorage doesn't observe writes made directly to UserDefaults on every OS; re-read.
+                            weightKg = RiderProfile.weightKg ?? weightKg
+                            ageYears = RiderProfile.age ?? ageYears
+                            sexRaw = RiderProfile.sex
+                            healthImportMessage = ok ? "Imported from Health." : "Nothing found in Health — enter the values above."
+                        }
+                    } label: {
+                        Label("Import weight, age & sex from Health", systemImage: "heart.text.square")
+                    }
+                    if let healthImportMessage {
+                        Text(healthImportMessage).font(.caption).foregroundStyle(.secondary)
+                    }
                 } header: {
                     Text("Rider Profile")
                 } footer: {
-                    Text("FTP (Functional Threshold Power) unlocks Coggan power zones, Intensity Factor and TSS in ride summaries. A 20-minute all-out test × 0.95 is a good estimate. Max HR enables heart-rate zones; 220 − age is a rough starting point.")
+                    Text("FTP (Functional Threshold Power) unlocks Coggan power zones, Intensity Factor and TSS in ride summaries. A 20-minute all-out test × 0.95 is a good estimate. Max HR enables heart-rate zones; 220 − age is a rough starting point. Weight, age and sex are used to estimate calories (so the Move ring gets credit) when there's no power meter.")
                 }
 
                 Section {
@@ -65,6 +110,15 @@ struct SettingsView: View {
                     Text("Recording")
                 } footer: {
                     Text("Pauses the ride clock automatically after ~3 seconds below 2 mph (traffic lights, stops) and resumes when you roll again. Distance keeps counting; averages use moving time only.")
+                }
+
+                Section {
+                    Toggle("Keep screen on while riding", isOn: $keepAwakeRide)
+                    Toggle("Keep screen on whenever RidePulse is open", isOn: $keepAwakeAlways)
+                } header: {
+                    Text("Screen")
+                } footer: {
+                    Text("“While riding” keeps the display on during a recording or while following a route, so your numbers and turns stay visible on the handlebar mount. The second option also keeps it on any time the app is in front. Both use more battery; the screen turns off normally when you lock the phone or leave the app.")
                 }
 
                 Section {
@@ -207,6 +261,15 @@ struct SettingsView: View {
             .navigationTitle("Settings")
             .onAppear { voices = VoiceSettings.availableVoices() }
         }
+    }
+
+    /// Weight shown in lb for mph users, kg otherwise; stored in kg.
+    private var weightDisplay: Binding<Double?> {
+        let lb = speedUnitRaw == SpeedUnit.mph.rawValue
+        return Binding<Double?>(
+            get: { weightKg > 0 ? (lb ? weightKg * 2.20462 : weightKg) : nil },
+            set: { weightKg = max(0, ($0 ?? 0) / (lb ? 2.20462 : 1)) }
+        )
     }
 
     /// Show the placeholder (not "0") when a profile value is unset.

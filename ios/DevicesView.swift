@@ -93,19 +93,36 @@ struct DevicesView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
-                    if let bpm = watchManager.heartRateBpm {
+                    TimelineView(.periodic(from: .now, by: 1)) { _ in
                         HStack {
-                            Text("Live heart rate")
+                            Text("Heart rate")
                             Spacer()
-                            Text("\(Int(bpm.rounded())) bpm")
-                                .font(.headline)
+                            if let bpm = watchManager.heartRateBpm, let d = watchManager.lastHeartRateDate {
+                                let age = Int(Date().timeIntervalSince(d))
+                                VStack(alignment: .trailing, spacing: 0) {
+                                    Text("\(Int(bpm.rounded())) bpm").font(.headline)
+                                    Text(age < 15 ? "live" : "\(age)s ago — not streaming")
+                                        .font(.caption2)
+                                        .foregroundStyle(age < 15 ? .green : .orange)
+                                }
+                            } else {
+                                Text("none received yet").font(.subheadline).foregroundStyle(.secondary)
+                            }
                         }
+                    }
+                    Button {
+                        watchManager.launchWatchWorkout()
+                    } label: {
+                        Label("Start watch workout now", systemImage: "applewatch.watchface")
+                    }
+                    if let status = watchManager.watchLaunchStatus {
+                        Text(status).font(.caption).foregroundStyle(.secondary)
                     }
                     VStack(alignment: .leading, spacing: 4) {
                         Text("How it works")
                             .font(.subheadline)
                             .fontWeight(.semibold)
-                        Text("Open the RidePulse app on your Apple Watch and tap Start Workout. The watch streams your live heart rate to this iPhone automatically.")
+                        Text("Starting a ride on the iPhone now launches the watch workout automatically (keep the watch on your wrist and unlocked). You can also use “Start watch workout now” above to test it before a ride — heart rate should show “live” within ~10 seconds.")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

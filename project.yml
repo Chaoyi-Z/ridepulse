@@ -68,7 +68,7 @@ targets:
         NSBluetoothAlwaysUsageDescription: "RidePulse uses Bluetooth to connect to your 4iiii power meter."
         NSLocationWhenInUseUsageDescription: "RidePulse uses your location to track live speed, distance, and draw your route on the map."
         NSLocationAlwaysAndWhenInUseUsageDescription: "RidePulse keeps tracking your route in the background while a ride is recording."
-        NSHealthShareUsageDescription: "RidePulse reads nothing from Health; access is needed to save your rides as workouts."
+        NSHealthShareUsageDescription: "RidePulse reads your weight, age and sex from Health to estimate the calories you burn on rides."
         NSHealthUpdateUsageDescription: "RidePulse saves your rides to Apple Health as cycling workouts with route, heart rate and power."
         CFBundleURLTypes:
           - CFBundleURLName: com.chaoyi.ridepulse.oauth

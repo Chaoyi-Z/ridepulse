@@ -5,6 +5,9 @@ import SwiftUI
 enum RiderProfile {
     static let ftpKey = "ftpWatts"
     static let maxHRKey = "maxHeartRateBpm"
+    static let weightKey = "weightKg"
+    static let ageKey = "ageYears"
+    static let sexKey = "biologicalSex"      // "", "male", "female"
 
     static var ftp: Int? {
         let v = UserDefaults.standard.integer(forKey: ftpKey)
@@ -15,6 +18,25 @@ enum RiderProfile {
         let v = UserDefaults.standard.integer(forKey: maxHRKey)
         return v > 0 ? v : nil
     }
+
+    static var weightKg: Double? {
+        let v = UserDefaults.standard.double(forKey: weightKey)
+        return v > 0 ? v : nil
+    }
+
+    static var age: Int? {
+        let v = UserDefaults.standard.integer(forKey: ageKey)
+        return v > 0 ? v : nil
+    }
+
+    static var sex: String { UserDefaults.standard.string(forKey: sexKey) ?? "" }
+}
+
+/// Where a ride's calorie figure came from.
+enum CalorieSource: String {
+    case power = "power meter"
+    case heartRate = "heart rate"
+    case speed = "speed"
 }
 
 /// One training zone bucket with time spent in it.
@@ -39,6 +61,10 @@ struct RideStats {
     let workKilojoules: Double?
     /// Rough calories: kJ ≈ kcal for cycling (~24% efficiency cancels the 4.184 factor).
     let estimatedCalories: Double?
+    /// What the calorie estimate was based on (most accurate available).
+    let calorieSource: CalorieSource?
+    /// True when weight/age/sex weren't known and defaults were used.
+    let calorieUsedDefaults: Bool
     /// Variability index NP / avg power. ~1.0 = steady, >1.1 = surgy.
     let variabilityIndex: Double?
     /// Intensity factor NP / FTP (needs FTP).
@@ -55,7 +81,9 @@ struct RideStats {
 
     static let peakWindows = [5, 60, 300, 1200]
 
-    init(ride: Ride, ftp: Int? = RiderProfile.ftp, maxHR: Int? = RiderProfile.maxHR) {
+    init(ride: Ride, ftp: Int? = RiderProfile.ftp, maxHR: Int? = RiderProfile.maxHR,
+         weightKg: Double? = RiderProfile.weightKg, age: Int? = RiderProfile.age,
+         sex: String = RiderProfile.sex) {
         let samples = ride.samples.sorted { $0.timestamp < $1.timestamp }
         elapsedSeconds = max(0, ride.endDate.timeIntervalSince(ride.startDate))
         movingSeconds = ride.durationSeconds
@@ -87,7 +115,6 @@ struct RideStats {
         if hasPower, !powers.isEmpty {
             let kj = powers.reduce(0, +) / 1000.0
             workKilojoules = kj
-            estimatedCalories = kj
 
             // Normalized power
             var np: Double?
@@ -152,7 +179,6 @@ struct RideStats {
             }
         } else {
             workKilojoules = nil
-            estimatedCalories = nil
             normalizedPower = nil
             variabilityIndex = nil
             intensityFactor = nil
@@ -161,6 +187,56 @@ struct RideStats {
             powerZones = []
             powerZonesUseFTP = false
         }
+
+        // Calories: power meter (mechanical work ≈ kcal for cycling) > heart rate > speed.
+        let hoursMoving = max(ride.durationSeconds, 0) / 3600
+        let minutesMoving = hoursMoving * 60
+        let hrSamples = samples.compactMap { $0.heartRateBpm }.map(Double.init)
+        let knownWeight = weightKg
+        let weight = knownWeight ?? 70
+        var kcal: Double?
+        var source: CalorieSource?
+        var usedDefaults = false
+
+        if let kj = workKilojoules, kj > 0 {
+            kcal = kj
+            source = .power
+        } else if !hrSamples.isEmpty, minutesMoving > 0 {
+            // Keytel et al. (2005) heart-rate equation, kcal/min; subtract resting (~1 MET)
+            // so the figure is *active* energy, which is what the Move ring counts.
+            let hr = hrSamples.reduce(0, +) / Double(hrSamples.count)
+            let a = Double(age ?? 35)
+            let male = (-55.0969 + 0.6309 * hr + 0.1988 * weight + 0.2017 * a) / 4.184
+            let female = (-20.4022 + 0.4472 * hr - 0.1263 * weight + 0.074 * a) / 4.184
+            let perMinute: Double
+            switch sex {
+            case "male": perMinute = male
+            case "female": perMinute = female
+            default: perMinute = (male + female) / 2
+            }
+            let resting = 0.01667 * weight          // 1 MET ≈ 1 kcal/kg/h
+            kcal = max(0, (perMinute - resting) * minutesMoving)
+            source = .heartRate
+            usedDefaults = knownWeight == nil || age == nil || sex.isEmpty
+        } else if hoursMoving > 0, ride.avgSpeedMps > 0 {
+            // Compendium of Physical Activities cycling METs by speed.
+            let mph = ride.avgSpeedMps * 2.23694
+            let met: Double
+            switch mph {
+            case ..<10: met = 4.0
+            case ..<12: met = 6.8
+            case ..<14: met = 8.0
+            case ..<16: met = 10.0
+            case ..<19: met = 12.0
+            default: met = 15.8
+            }
+            kcal = max(0, (met - 1) * weight * hoursMoving)
+            source = .speed
+            usedDefaults = knownWeight == nil
+        }
+        estimatedCalories = kcal
+        calorieSource = source
+        calorieUsedDefaults = usedDefaults
 
         // Heart-rate zones (% of max HR)
         let hrs = samples.compactMap { $0.heartRateBpm }.map(Double.init)

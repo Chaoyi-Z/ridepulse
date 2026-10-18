@@ -31,7 +31,11 @@ final class HealthExporter: ObservableObject {
     func requestAuthorization() async -> Bool {
         guard HKHealthStore.isHealthDataAvailable() else { return false }
         do {
-            try await store.requestAuthorization(toShare: shareTypes, read: [])
+            try await store.requestAuthorization(toShare: shareTypes, read: [
+                HKQuantityType(.bodyMass),
+                HKCharacteristicType(.dateOfBirth),
+                HKCharacteristicType(.biologicalSex)
+            ])
             return true
         } catch {
             lastMessage = "Health access failed: \(error.localizedDescription)"
@@ -46,6 +50,8 @@ final class HealthExporter: ObservableObject {
             return nil
         }
         guard await requestAuthorization() else { return nil }
+        // Calories depend on weight/age/sex; pick them up from Health if not set yet.
+        if RiderProfile.weightKg == nil { await RiderProfile.importFromHealth(requestAccess: false) }
 
         let samples = ride.samples.sorted { $0.timestamp < $1.timestamp }
         let start = ride.startDate

@@ -183,6 +183,14 @@ struct HeartRatePage: View {
                     .foregroundStyle(.secondary)
             }
 
+            if !workoutManager.log.isEmpty {
+                Text(workoutManager.log.suffix(3).joined(separator: "\n"))
+                    .font(.system(size: 9))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(6)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
             Spacer()
 
             Button {

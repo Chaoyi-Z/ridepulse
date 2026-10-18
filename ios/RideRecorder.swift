@@ -68,6 +68,7 @@ final class RideRecorder: ObservableObject {
         isAutoPaused = false
         locationManager.resetTripDistance()
         locationManager.startUpdates()
+        watchManager.launchWatchWorkout()
         state = .recording
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in

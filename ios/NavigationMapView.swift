@@ -114,8 +114,6 @@ struct NavigationMapView: View {
                 .padding(.bottom, 8)
             }
         }
-        .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
-        .onDisappear { UIApplication.shared.isIdleTimerDisabled = false }
         .onReceive(locationManager.$currentLocation.compactMap { $0 }) { loc in
             planner.update(with: loc)
             if isFollowing { follow(loc, animated: true) }

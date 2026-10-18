@@ -1,5 +1,6 @@
 import Foundation
 import WatchConnectivity
+import HealthKit
 
 /// iOS side of the phone<->watch link. Receives live heart rate sent by the
 /// watch app via `WCSession.sendMessage`.
@@ -15,6 +16,9 @@ final class WatchConnectivityManager: NSObject, ObservableObject {
     /// Ride control requested from the watch: "start" | "pause" | "resume" | "finish".
     var onCommand: ((String) -> Void)?
     private var lastMetricsSent = Date.distantPast
+    /// Result of the last attempt to launch the watch app / workout, for the Devices screen.
+    @Published var watchLaunchStatus: String?
+    private let healthStore = HKHealthStore()
 
     override init() {
         super.init()
@@ -24,6 +28,42 @@ final class WatchConnectivityManager: NSObject, ObservableObject {
             session.delegate = self
             session.activate()
         }
+    }
+}
+
+// MARK: - Launch the watch workout from the phone
+
+extension WatchConnectivityManager {
+    /// Ask the watch to start a cycling workout (launching the watch app if it
+    /// isn't open). This is what makes heart rate flow when a ride is started
+    /// from the iPhone without touching the watch.
+    func launchWatchWorkout() {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        let config = HKWorkoutConfiguration()
+        config.activityType = .cycling
+        config.locationType = .outdoor
+        // startWatchApp needs the app to be authorized to share workouts.
+        healthStore.requestAuthorization(toShare: [HKObjectType.workoutType()], read: []) { [weak self] _, _ in
+            self?.healthStore.startWatchApp(with: config) { success, error in
+                DispatchQueue.main.async {
+                    self?.watchLaunchStatus = success
+                        ? "Asked the watch to start its workout."
+                        : "Couldn't start the watch app: \(error?.localizedDescription ?? "unknown error")"
+                }
+            }
+        }
+    }
+}
+
+extension WatchConnectivityManager {
+    /// Ask the watch to end its heart-rate workout (needs the watch to be reachable).
+    func stopWatchWorkout() {
+        guard WCSession.isSupported(), WCSession.default.isReachable else {
+            watchLaunchStatus = "Watch not reachable — end the workout on the watch."
+            return
+        }
+        WCSession.default.sendMessage(["workout": "stop"], replyHandler: nil, errorHandler: nil)
+        watchLaunchStatus = "Asked the watch to stop its workout."
     }
 }
 
@@ -67,6 +107,10 @@ extension WatchConnectivityManager: WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        if let status = message["watchStatus"] as? String {
+            DispatchQueue.main.async { [weak self] in self?.watchLaunchStatus = status }
+            return
+        }
         if let command = message["command"] as? String {
             DispatchQueue.main.async { [weak self] in self?.onCommand?(command) }
             return

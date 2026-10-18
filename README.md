@@ -111,6 +111,14 @@ swift design/make-icon.swift watchos/Assets.xcassets/AppIcon.appiconset/AppIcon.
   speed, power, HR, distance, time and — while navigating — the next turn
   (`widgets/` extension + `shared/RideActivityAttributes.swift`,
   `ios/LiveActivityController.swift`). Allow it when iOS asks the first time.
+- **Heart rate from the watch:** starting a ride on the iPhone launches the watch workout
+  remotely (`HKHealthStore.startWatchApp`), which runs a live workout builder so heart
+  rate streams every second. The Ride screen has a **Start HR / Stop HR** button next to
+  the Watch indicator to start the watch heart rate before you roll out. Devices › Apple Watch shows whether HR is live and has a
+  "Start watch workout now" test button. The watch workout is discarded on finish; the
+  iPhone saves the single combined workout to Health.
+- **Screen on:** Settings › Screen — keep the display on while riding (default) and/or
+  whenever the app is open.
 - **Auto-pause:** the clock stops after ~3 s below 2 mph and resumes when you roll
   (Settings › Recording). Averages use moving time.
 - **Watch bike computer:** the watch mirrors speed / power / HR / distance / time and
@@ -124,6 +132,11 @@ swift design/make-icon.swift watchos/Assets.xcassets/AppIcon.appiconset/AppIcon.
   banner shows the grade over the next 400 m. Elevation comes from the free
   Open-Meteo elevation API (`ios/ElevationService.swift`) — route coordinates are
   sent to that service when a route is loaded.
+- **Calories / rings:** active calories are estimated from the power meter when there is
+  one, else from heart rate (Keytel equation, minus resting energy), else from average
+  speed (cycling METs), using your weight, age and sex — imported from Health or entered
+  in Settings › Rider Profile (`ios/RideStats.swift`, `ios/RiderProfileHealth.swift`). They
+  are written to Health so the Move ring in Fitness gets credit.
 - **Apple Health:** finished rides are saved as outdoor cycling workouts with route,
   distance, HR, power and estimated calories (`ios/HealthExporter.swift`;
   Settings › Apple Health to disable).

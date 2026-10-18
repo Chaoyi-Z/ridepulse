@@ -1,6 +1,7 @@
 import Foundation
 import HealthKit
 import WatchConnectivity
+import WatchKit
 
 /// Latest numbers mirrored from the iPhone.
 struct LiveMetrics {
@@ -31,25 +32,54 @@ struct LiveMetrics {
     }
 }
 
-/// Runs a HealthKit cycling workout on the watch and streams live heart rate
-/// to the paired iPhone via WatchConnectivity `sendMessage`.
+/// Runs a HealthKit cycling workout on the watch with a live workout builder
+/// (which makes the watch sample heart rate every second) and streams the live
+/// heart rate to the paired iPhone via WatchConnectivity.
 ///
-/// HealthKit query handlers and WCSessionDelegate callbacks arrive on
-/// background queues, so every @Published update is dispatched to main.
+/// The workout is started either by the user on the watch, automatically when
+/// the phone's ride starts, or remotely: the iPhone calls
+/// `HKHealthStore.startWatchApp(with:)`, which launches this app and calls
+/// `WatchAppDelegate.handle(_:)`. The watch workout is *discarded* when it ends —
+/// the iPhone saves the single combined workout to Health, so there are no duplicates.
+///
+/// HealthKit and WCSession callbacks arrive on background queues, so every
+/// @Published update is dispatched to main.
 final class WatchWorkoutManager: NSObject, ObservableObject {
+    static let shared = WatchWorkoutManager()
+
     @Published var heartRateBpm: Double = 0
     @Published var isWorkoutActive: Bool = false
     @Published var authorizationStatus: String = "Not requested"
     @Published var isPhoneReachable: Bool = false
     @Published var metrics = LiveMetrics()
+    /// Recent diagnostic lines (also printed, and shown on the watch HR page).
+    @Published var log: [String] = []
     private var staleTimer: Timer?
+
+    /// Tell the iPhone what went wrong so it can show it on the Ride/Devices screens.
+    func reportStatus(_ text: String) {
+        note(text)
+        DispatchQueue.main.async { [weak self] in self?.authorizationStatus = text }
+        guard WCSession.default.isReachable else { return }
+        WCSession.default.sendMessage(["watchStatus": text], replyHandler: nil, errorHandler: nil)
+    }
+
+    static let permissionHelp = "Health access is OFF. On iPhone: Health app > profile picture > Apps > RidePulse > Turn On All."
+
+    func note(_ text: String) {
+        print("[RidePulseWatch] \(text)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.log.append(text)
+            if self.log.count > 8 { self.log.removeFirst(self.log.count - 8) }
+        }
+    }
 
     private let healthStore = HKHealthStore()
     private var session: HKWorkoutSession?
-    private var heartRateQuery: HKAnchoredObjectQuery?
-    private var heartRateAnchor: HKQueryAnchor?
+    private var builder: HKLiveWorkoutBuilder?
 
-    override init() {
+    private override init() {
         super.init()
         if WCSession.isSupported() {
             let session = WCSession.default
@@ -70,6 +100,13 @@ final class WatchWorkoutManager: NSObject, ObservableObject {
     }
 
     private func handleIncoming(_ d: [String: Any]) {
+        if let workout = d["workout"] as? String {
+            DispatchQueue.main.async { [weak self] in
+                if workout == "stop" { self?.stopWorkout() }
+                if workout == "start" { self?.startWorkout() }
+            }
+            return
+        }
         guard d["kind"] as? String == "metrics" else { return }
         let m = LiveMetrics(d)
         DispatchQueue.main.async { [weak self] in
@@ -80,6 +117,7 @@ final class WatchWorkoutManager: NSObject, ObservableObject {
             if wasIdle, m.rideState == "recording", self.session == nil {
                 self.startWorkout()
             }
+            // Ride finished/discarded on the phone → stop the workout.
             if m.rideState == "idle", self.session != nil, !wasIdle {
                 self.stopWorkout()
             }
@@ -88,38 +126,72 @@ final class WatchWorkoutManager: NSObject, ObservableObject {
 
     // MARK: - HealthKit authorization
 
-    func requestAuthorization() {
+    func requestAuthorization(completion: ((Bool) -> Void)? = nil) {
         guard HKHealthStore.isHealthDataAvailable() else {
             authorizationStatus = "Health data unavailable"
+            completion?(false)
             return
         }
         let heartRate = HKQuantityType(.heartRate)
+        let energy = HKQuantityType(.activeEnergyBurned)
         let workout = HKWorkoutType.workoutType()
-        healthStore.requestAuthorization(toShare: [workout], read: [heartRate]) { [weak self] success, _ in
+        note("requesting Health authorization")
+        healthStore.requestAuthorization(toShare: [workout, heartRate, energy], read: [heartRate]) { [weak self] success, error in
+            let shareStatus = self?.healthStore.authorizationStatus(for: workout).rawValue ?? -1
+            self?.note("authorization finished: success=\(success) workoutShareStatus=\(shareStatus) error=\(error?.localizedDescription ?? "none")")
             DispatchQueue.main.async {
-                self?.authorizationStatus = success ? "Authorized" : "Denied"
+                // HKAuthorizationStatus: 0 not determined, 1 denied, 2 authorized.
+                if shareStatus == HKAuthorizationStatus.sharingDenied.rawValue {
+                    self?.reportStatus(Self.permissionHelp)
+                } else {
+                    self?.authorizationStatus = success ? "Authorized" : "Denied"
+                }
+                completion?(success)
             }
         }
     }
 
     // MARK: - Workout control
 
-    func startWorkout() {
-        guard session == nil else { return }
-        let configuration = HKWorkoutConfiguration()
-        configuration.activityType = .cycling
-        configuration.locationType = .outdoor
+    /// Start a workout. `configuration` is supplied when the iPhone launches us.
+    func startWorkout(configuration: HKWorkoutConfiguration? = nil) {
+        guard session == nil else { note("startWorkout ignored: session already exists"); return }
+        note("startWorkout called")
+        let config: HKWorkoutConfiguration
+        if let configuration {
+            config = configuration
+        } else {
+            config = HKWorkoutConfiguration()
+            config.activityType = .cycling
+            config.locationType = .outdoor
+        }
 
         do {
-            let workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
+            let workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: config)
+            let workoutBuilder = workoutSession.associatedWorkoutBuilder()
+            workoutBuilder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: config)
             workoutSession.delegate = self
+            workoutBuilder.delegate = self
             session = workoutSession
-            let startDate = Date()
-            workoutSession.startActivity(with: startDate)
-            startHeartRateQuery(from: startDate)
+            builder = workoutBuilder
+
+            let start = Date()
+            workoutSession.startActivity(with: start)
+            note("session.startActivity called, state=\(workoutSession.state.rawValue)")
+            workoutBuilder.beginCollection(withStart: start) { [weak self] success, error in
+                self?.note("beginCollection success=\(success) error=\(error?.localizedDescription ?? "none")")
+                if !success {
+                    let denied = (error?.localizedDescription ?? "").localizedCaseInsensitiveContains("authorized")
+                    self?.reportStatus(denied ? Self.permissionHelp
+                                              : "Collection failed: \(error?.localizedDescription ?? "unknown")")
+                    // A session with no data collection is useless and drains battery.
+                    DispatchQueue.main.async { self?.stopWorkout() }
+                }
+            }
         } catch {
+            note("HKWorkoutSession init FAILED: \(error)")
             DispatchQueue.main.async { [weak self] in
-                self?.authorizationStatus = "Workout failed to start"
+                self?.authorizationStatus = "Workout failed to start: \(error.localizedDescription)"
             }
         }
     }
@@ -128,55 +200,19 @@ final class WatchWorkoutManager: NSObject, ObservableObject {
         session?.end()
     }
 
-    private func cleanup() {
-        if let query = heartRateQuery {
-            healthStore.stop(query)
-        }
-        heartRateQuery = nil
-        heartRateAnchor = nil
+    private func finishAndDiscard() {
+        let b = builder
+        builder = nil
         session = nil
         isWorkoutActive = false
         heartRateBpm = 0
+        b?.endCollection(withEnd: Date()) { _, _ in
+            // The iPhone saves the combined ride to Health; don't duplicate it from here.
+            b?.discardWorkout()
+        }
     }
 
     // MARK: - Heart rate streaming
-
-    private func startHeartRateQuery(from startDate: Date) {
-        let heartRateType = HKQuantityType(.heartRate)
-        let predicate = HKQuery.predicateForSamples(
-            withStart: startDate,
-            end: nil,
-            options: .strictStartDate
-        )
-        let query = HKAnchoredObjectQuery(
-            type: heartRateType,
-            predicate: predicate,
-            anchor: heartRateAnchor,
-            limit: HKObjectQueryNoLimit
-        ) { [weak self] _, samples, _, anchor, _ in
-            self?.handleHeartRateSamples(samples, anchor: anchor)
-        }
-        query.updateHandler = { [weak self] _, samples, _, anchor, _ in
-            self?.handleHeartRateSamples(samples, anchor: anchor)
-        }
-        heartRateQuery = query
-        healthStore.execute(query)
-    }
-
-    private func handleHeartRateSamples(_ samples: [HKSample]?, anchor: HKQueryAnchor?) {
-        if let anchor = anchor {
-            heartRateAnchor = anchor
-        }
-        guard let quantitySamples = samples as? [HKQuantitySample],
-              let latest = quantitySamples.last else { return }
-        let bpm = latest.quantity.doubleValue(
-            for: HKUnit.count().unitDivided(by: HKUnit.minute())
-        )
-        DispatchQueue.main.async { [weak self] in
-            self?.heartRateBpm = bpm
-            self?.sendHeartRateToPhone(bpm: bpm)
-        }
-    }
 
     private func sendHeartRateToPhone(bpm: Double) {
         guard WCSession.default.isReachable else { return }
@@ -188,6 +224,25 @@ final class WatchWorkoutManager: NSObject, ObservableObject {
     }
 }
 
+// MARK: - HKLiveWorkoutBuilderDelegate
+
+extension WatchWorkoutManager: HKLiveWorkoutBuilderDelegate {
+    func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
+        let hrType = HKQuantityType(.heartRate)
+        note("builder collected: \(collectedTypes.map { $0.identifier.replacingOccurrences(of: "HKQuantityTypeIdentifier", with: "") }.joined(separator: ","))")
+        guard collectedTypes.contains(hrType),
+              let stats = workoutBuilder.statistics(for: hrType),
+              let quantity = stats.mostRecentQuantity() else { return }
+        let bpm = quantity.doubleValue(for: HKUnit.count().unitDivided(by: HKUnit.minute()))
+        DispatchQueue.main.async { [weak self] in
+            self?.heartRateBpm = bpm
+            self?.sendHeartRateToPhone(bpm: bpm)
+        }
+    }
+
+    func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {}
+}
+
 // MARK: - HKWorkoutSessionDelegate
 
 extension WatchWorkoutManager: HKWorkoutSessionDelegate {
@@ -197,19 +252,21 @@ extension WatchWorkoutManager: HKWorkoutSessionDelegate {
         from fromState: HKWorkoutSessionState,
         date: Date
     ) {
+        note("session state \(fromState.rawValue) -> \(toState.rawValue)")
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.isWorkoutActive = (toState == .running)
             if toState == .ended {
-                self.cleanup()
+                self.finishAndDiscard()
             }
         }
     }
 
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+        note("session FAILED: \(error)")
         DispatchQueue.main.async { [weak self] in
-            self?.cleanup()
-            self?.authorizationStatus = "Workout error"
+            self?.finishAndDiscard()
+            self?.authorizationStatus = "Workout error: \(error.localizedDescription)"
         }
     }
 }
@@ -242,4 +299,19 @@ extension WatchWorkoutManager: WCSessionDelegate {
     }
 
     // sessionDidBecomeInactive/DidDeactivate are iOS-only and unavailable on watchOS.
+}
+
+// MARK: - Launch from the iPhone
+
+/// `HKHealthStore.startWatchApp(with:)` on the phone launches this app and calls
+/// `handle(_:)` — that is how a ride started on the iPhone starts the watch workout
+/// even when the watch app isn't open.
+final class WatchAppDelegate: NSObject, WKApplicationDelegate {
+    func handle(_ workoutConfiguration: HKWorkoutConfiguration) {
+        let manager = WatchWorkoutManager.shared
+        manager.note("handle(workoutConfiguration) from iPhone")
+        manager.requestAuthorization { _ in
+            manager.startWorkout(configuration: workoutConfiguration)
+        }
+    }
 }

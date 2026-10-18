@@ -12,6 +12,7 @@
 		1060D8C599E6E1133CAFC83D /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21016E53DCAA1DC460C75BBC /* WatchConnectivityManager.swift */; };
 		1FE07FEB36A3134E13301535 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0BFDD32F3CB48488EE5C4E /* HistoryView.swift */; };
 		25735E9D533B61E3A08CE839 /* RidePulseWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 83A3C934F7065A494A838B0C /* RidePulseWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2687E4DF507F940D567E6DC2 /* RiderProfileHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ECD40AA6A47CF110C385FF /* RiderProfileHealth.swift */; };
 		321DEEB7A9A081614D2E7B1C /* RidePulseWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 34D1E75504BFA339578F729E /* RidePulseWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		38E888A87A8E05FB441F482F /* PresetRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58136F38A13A42CF58EEB0FF /* PresetRoutes.swift */; };
 		40CC254FB93F736835923F05 /* GPXImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062197B52EE6E460E34D660A /* GPXImporter.swift */; };
@@ -109,6 +110,7 @@
 		553EB7A4C6B8848EC13FC77C /* RidePulseWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RidePulseWidgetsBundle.swift; sourceTree = "<group>"; };
 		58136F38A13A42CF58EEB0FF /* PresetRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetRoutes.swift; sourceTree = "<group>"; };
 		58ADB1AA62B8028808EAEF26 /* LocationSpeedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSpeedManager.swift; sourceTree = "<group>"; };
+		59ECD40AA6A47CF110C385FF /* RiderProfileHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderProfileHealth.swift; sourceTree = "<group>"; };
 		63E1BEA692558051925F5C48 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		64641A825C15BBDAB6F0175C /* ElevationProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationProfileView.swift; sourceTree = "<group>"; };
 		69CCFC9485A660B05605889C /* RideStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideStore.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				F3DFDF5DE6579F6C75ED0C99 /* RidePulse.entitlements */,
 				1DC3637BDFEA97040452B92D /* RidePulseApp.swift */,
 				A32306EE2BFA5B16945E4A85 /* RideRecorder.swift */,
+				59ECD40AA6A47CF110C385FF /* RiderProfileHealth.swift */,
 				4AB5EA8E91C8A3479D53D7C1 /* RideStats.swift */,
 				69CCFC9485A660B05605889C /* RideStore.swift */,
 				2C8866759759E2A4F13F87F3 /* RoutePlanner.swift */,
@@ -382,6 +385,7 @@
 				4D02FEDBEB933C65722A2DCC /* RideRecorder.swift in Sources */,
 				ED4AC59869C41DC08566DB18 /* RideStats.swift in Sources */,
 				F860C269B84116B77958895A /* RideStore.swift in Sources */,
+				2687E4DF507F940D567E6DC2 /* RiderProfileHealth.swift in Sources */,
 				4E64BA9FD43305C7C3F2FAD1 /* RoutePlanner.swift in Sources */,
 				AAB89BABE677BED6688E684B /* RoutesView.swift in Sources */,
 				0AC4CF493EB59C37A49C00B2 /* SavedRoute.swift in Sources */,
